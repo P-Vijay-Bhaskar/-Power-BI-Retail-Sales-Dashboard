@@ -1,0 +1,114 @@
+# 1️ Data Loading & Preparation
+- Imported CSV file into Power BI
+- Verified correct data types (Date, Numeric, Text)
+- Cleaned and validated fields for analysis
+
+---
+
+# 2  Date Table Creation
+Created a dedicated Date table to support time intelligence and trend analysis.
+
+```DAX
+Date table =
+ADDCOLUMNS(
+    CALENDAR (DATE(2019,1,1), DATE(2021,12,31)),
+    "Year", YEAR([Date]),
+    "Month", FORMAT([Date], "MMM"),
+    "Month Number", MONTH([Date])
+)
+---Marked the table as a Date Table and linked it to the fact table.
+# 3 Time Helper Columns
+--To enable proper monthly analysis and sorting:
+-DAX
+
+Month Year =
+FORMAT('Date table'[Date], "MMM yyyy")
+
+Month Year Sort =
+'Date table'[Year] * 100 + 'Date table'[Month Number]
+
+--The Month Year column is sorted using Month Year Sort to maintain chronological order.
+
+# 4 DAX Measures
+--Core business measures created using DAX:
+
+Total Sales =
+SUM(retail_sales[Sales])
+
+Total Profit =
+SUM(retail_sales[Profit])
+
+Total Customers =
+DISTINCTCOUNT(retail_sales[Customer ID])
+
+Profit Margin % =
+DIVIDE([Total Profit], [Total Sales], 0)
+
+YoY Sales Growth % =
+VAR PreviousYearSales =
+    CALCULATE(
+        [Total Sales],
+        SAMEPERIODLASTYEAR('Date table'[Date])
+    )
+RETURN
+DIVIDE(
+    [Total Sales] - PreviousYearSales,
+    PreviousYearSales,
+    0
+)
+
+# 5️ Dashboard Visuals
+KPI Section
+
+Total Sales
+
+Total Profit
+
+Total Customers
+
+Year-over-Year Sales Growth %
+
+Profit Margin %
+
+Trend Analysis
+
+Line Chart: Monthly Sales Trend (2019–2021)
+
+Performance Analysis
+
+Bar Chart: Total Sales by Category
+
+Bar Chart: Profit by Region
+
+Column Chart: Profit by Sub-Category
+
+Customer Analysis
+
+Donut Chart: Sales Contribution by Customer Segment
+
+Table: Segment-wise customer count and sales
+
+# 6 Interactivity
+
+Slicers added for:
+
+Year
+
+Category
+
+Region
+
+Customer Segment
+
+--All visuals dynamically update based on user selections
+
+# 7️ Dashboard Design
+
+Card-style layout with subtle shadows
+
+Light grey canvas background
+
+Consistent color palette for sales and profit
+
+Clear visual hierarchy for executive readability
+
