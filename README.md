@@ -67,3 +67,6 @@ Business-oriented dashboard design
 
 Interactive and scalable analytics solution
 
+<img width="835" height="737" alt="Screenshot (120)" src="https://github.com/user-attachments/assets/c500249a-b90b-4476-ba5c-2d14357440bc" />
+
+
